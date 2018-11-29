@@ -1,9 +1,13 @@
 const { dataStore } = require('../tools/util');
 const { toDay } = require('../const');
 
-let words = dataStore[toDay][0].res
-
-for (const w of words) {
-  const { word, translate, phonetic } = w
-  console.log(`${word}:${phonetic}:${translate}`)
+if (dataStore[toDay]) {
+  let words = dataStore[toDay][0].res
+  console.log(
+    words.map(item => {
+      return `${item.word.green}: ${item.translate}`
+    }).join(' | ')
+  )
+} else {
+  console.log('请先执行 word -r'.red)
 }
