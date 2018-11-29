@@ -14,6 +14,18 @@ if (fs.existsSync(dataStorePath)) {
     fs.writeFileSync(dataStorePath, '{}')
 }
 
+const showAllWord = (arr) => {
+    console.log(
+        arr.map(item => {
+            return `
+${item.word.green}
+${item.phonetic}:${item.translate}
+`
+        }).join('')
+    )
+}
+
 module.exports = {
-  dataStore
+  dataStore,
+  showAllWord
 }

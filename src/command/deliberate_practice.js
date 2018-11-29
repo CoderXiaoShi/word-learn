@@ -1,10 +1,15 @@
 require('colors')
 const readline = require('readline')
 const { toDay, practice } = require('../const');
-const { dataStore } = require('../tools/util')
+const { dataStore } = require('../tools/util');
+const Table = require('cli-table')
+
+const cliTable = new Table()
 
 let source = {"errorCode":0,"res":[]};
-source = dataStore[toDay][0];
+if (dataStore && dataStore[toDay] && dataStore[toDay][0]) {
+    source = dataStore[toDay][0];
+}
 
 /*
     抄一遍
@@ -22,6 +27,18 @@ class DeliberatePractice {
         this.word = {};
         this.practiceNum = 0;
         this.status = practice.copy;
+        this.behavior = {
+            correct: 0,
+            error: 0,
+            wordMap: {}
+        }
+    }
+    recordWordPracticeResult(word) {
+        if (this.behavior.wordMap[word]) {
+            this.behavior.wordMap[word]++;
+        } else {
+            this.behavior.wordMap[word] = 1;
+        }
     }
     randomWord(ignoreWord) {
         let newWords = this.words.reduce((res, word) => {
@@ -51,25 +68,31 @@ class DeliberatePractice {
     practiceIng(line) {
         if (this.status === practice.copy) {
             if (line === this.word.word) {
-                this.status = practice.practice
-                this.showWord('translate')
+                this.status = practice.practice;
+                this.showWord('translate');
+                this.behavior.correct++;
+                this.recordWordPracticeResult(line)
             } else {
                 console.log('抄错'.red)
-                this.showWord()
+                this.behavior.error++;
+                this.showWord();
                 return
             }
         } else if (this.status === practice.practice) {
             if (line === this.word.word) {
-                this.practiceNum++
+                this.practiceNum++;
+                this.behavior.correct++;
+                this.recordWordPracticeResult(line)
                 if (this.practiceNum >= 5) {
-                    console.log('下一个')
-                    this.reset('new')
+                    console.log('很好, 下一个'.black.bgYellow);
+                    this.reset('new');
                 } else {
-                    this.showWord('translate', this.practiceNum)
+                    this.showWord('translate', this.practiceNum);
                 }
             } else {
-                console.log('错了重来')
-                this.reset('old')
+                console.log('错了重来'.red);
+                this.behavior.error++;
+                this.reset('old');
             }
         }
     }
@@ -80,7 +103,7 @@ class DeliberatePractice {
         this.rl.on('line', (line) => {
             console.clear();
             line = line.trim();
-            if (line === 'exit') {
+            if (line === '-exit') {
                 self.rl.close();
                 return;
             }
@@ -88,7 +111,24 @@ class DeliberatePractice {
             self.rl.prompt();
         })
         this.rl.on('close', () => {
-            console.log('byebye...'.green);
+            console.log('beybey...'.green);
+            cliTable.push(
+                ['正确','错误'],
+                [
+                    `${self.behavior.correct}`.green,
+                    `${self.behavior.error}`.red
+                ],
+                ['--', '--'],
+            )
+        Object.keys(self.behavior.wordMap).map(key => {
+            let num = self.behavior.wordMap[key]
+            cliTable.push([key, `${num}次`.yellow])
+        })
+            // 用户行为
+            // 正确次数
+            // 错误次数
+            // 各个单词的练习次数(输入正确的)
+            console.log(cliTable.toString())
             process.exit(0);
         })
     }
