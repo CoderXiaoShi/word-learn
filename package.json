@@ -1,0 +1,15 @@
+{
+  "name": "word-learn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "bin": {
+    "word": "./bin/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "colors": "^1.3.2",
+    "commander": "^2.19.0",
+    "moment": "^2.22.2"
+  }
+}
