@@ -1,7 +1,7 @@
 require('colors')
 const readline = require('readline')
 const { toDay, practice } = require('../const');
-const { dataStore } = require('../tools/util');
+const { dataStore, showAllWord } = require('../tools/util');
 const Table = require('cli-table')
 
 const cliTable = new Table()
@@ -60,9 +60,14 @@ class DeliberatePractice {
     }
     showWord(type = 'all', str) {
         if (type === 'all') {
-            console.log(`抄一遍,默写5遍\n${this.word.word}:${this.word.translate}${str ? `\n${str}` : ''}`.green)
+            console.log('抄一遍,默写5遍'.green)
+            showAllWord([this.word])
         } else if (type === 'translate') {
-            console.log(`默写5遍\n${this.word.phonetic}:${this.word.translate}${str ? `\n${str}` : ''}`.green)
+            console.log(`默写5遍: ${str ? `${str}次` : ''}`.green)
+            showAllWord([{
+                ...this.word,
+                word: '--'
+            }])
         }
     }
     practiceIng(line) {
@@ -111,12 +116,16 @@ class DeliberatePractice {
             self.rl.prompt();
         })
         this.rl.on('close', () => {
+            console.clear()
             console.log('beybey...'.green);
             cliTable.push(
-                ['正确','错误'],
                 [
-                    `${self.behavior.correct}`.green,
-                    `${self.behavior.error}`.red
+                    '错误',
+                    '正确'
+                ],
+                [
+                    `${self.behavior.error}`.red,
+                    `${self.behavior.correct}`.green
                 ],
                 ['--', '--'],
             )
@@ -133,6 +142,6 @@ class DeliberatePractice {
 if (source.res.length > 0) {
     new DeliberatePractice(source.res).reset().run();
 } else {
-    console.log('没有单词?, 先执行: word refresh'.red);
+    console.log('没有单词?, 先执行: word -r'.red);
     process.exit(-1)
 }
