@@ -18,14 +18,24 @@ class DeliberatePractice {
             output: process.stdout,
             prompt: '> ',
         })
+        this.word = {};
+        this.practiceNum = 0;
+        this.status = practice.copy;
+    }
+    randomWord(ignoreWord) {
+        let newWords = this.words.reduce((res, word) => {
+            if (word.word !== ignoreWord) {
+                res.push(word)
+            }
+            return res
+        }, [])
+        return newWords[Math.floor(Math.random() * newWords.length)]
     }
     reset(type = 'new') {
         this.practiceNum = 0;
         this.status = practice.copy;
         if (type === 'new') {
-            this.word = this.words[0];
-        } else {
-            this.word = this.words[0];
+            this.word = this.randomWord(this.word.word);
         }
         this.showWord();
         return this;
@@ -58,8 +68,6 @@ class DeliberatePractice {
                 }
             } else {
                 console.log('错了重来')
-                this.status = practice.copy
-                this.practiceNum = 0
                 this.reset('old')
             }
         }
