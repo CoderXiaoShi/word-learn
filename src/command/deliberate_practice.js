@@ -120,14 +120,10 @@ class DeliberatePractice {
                 ],
                 ['--', '--'],
             )
-        Object.keys(self.behavior.wordMap).map(key => {
-            let num = self.behavior.wordMap[key]
-            cliTable.push([key, `${num}次`.yellow])
-        })
-            // 用户行为
-            // 正确次数
-            // 错误次数
-            // 各个单词的练习次数(输入正确的)
+            Object.keys(self.behavior.wordMap).map(key => {
+                let num = self.behavior.wordMap[key]
+                cliTable.push([key, `${num}次`.yellow])
+            })
             console.log(cliTable.toString())
             process.exit(0);
         })
