@@ -9,6 +9,7 @@ source = dataStore[toDay][0];
 /*
     抄一遍
     默写5遍, 错了重来
+    离开时打印用户行为
 */
 class DeliberatePractice {
     constructor(words) {
