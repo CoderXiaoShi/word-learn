@@ -1,6 +1,6 @@
 {
   "name": "word-learn",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "license": "MIT",
   "description": "单词练习: 随机给出一个单词,默写5遍.",

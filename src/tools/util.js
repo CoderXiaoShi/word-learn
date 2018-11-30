@@ -17,10 +17,7 @@ if (fs.existsSync(dataStorePath)) {
 const showAllWord = (arr) => {
     console.log(
         arr.map(item => {
-            return `
-${item.word.green}
-${item.phonetic}:${item.translate}
-`
+            return `\n${item.word.green}\n${item.phonetic}:${item.translate}\n`
         }).join('')
     )
 }

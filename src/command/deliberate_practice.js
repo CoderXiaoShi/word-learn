@@ -52,6 +52,7 @@ class DeliberatePractice {
     reset(type = 'new') {
         this.practiceNum = 0;
         this.status = practice.copy;
+        this.rl.setPrompt('>')
         if (type === 'new') {
             this.word = this.randomWord(this.word.word);
         }
@@ -72,11 +73,13 @@ class DeliberatePractice {
     }
     practiceIng(line) {
         if (this.status === practice.copy) {
+            console.clear();
             if (line === this.word.word) {
                 this.status = practice.practice;
                 this.showWord('translate');
                 this.behavior.correct++;
                 this.recordWordPracticeResult(line)
+                this.rl.setPrompt(`${this.practiceNum+1}>`)
             } else {
                 console.log('抄错'.red)
                 this.behavior.error++;
@@ -89,12 +92,20 @@ class DeliberatePractice {
                 this.behavior.correct++;
                 this.recordWordPracticeResult(line)
                 if (this.practiceNum >= 5) {
+                    console.clear();
+                    this.rl.setPrompt('>')
                     console.log('很好, 下一个'.black.bgYellow);
                     this.reset('new');
                 } else {
-                    this.showWord('translate', this.practiceNum);
+                    console.clear();
+                    this.showWord('translate');
+                    for (let i = 0; i < this.practiceNum; i++) {
+                        console.log(`${i+1}>${line.replace(/\w/ig,'*')}`)
+                    }
+                    this.rl.setPrompt(`${this.practiceNum+1}>`)
                 }
             } else {
+                console.clear()
                 console.log('错了重来'.red);
                 this.behavior.error++;
                 this.reset('old');
@@ -106,7 +117,6 @@ class DeliberatePractice {
         let self = this;
 
         this.rl.on('line', (line) => {
-            console.clear();
             line = line.trim();
             if (line === '-exit') {
                 self.rl.close();
@@ -117,7 +127,7 @@ class DeliberatePractice {
         })
         this.rl.on('close', () => {
             console.clear()
-            console.log('beybey...'.green);
+            console.log('本场表现...'.green);
             cliTable.push(
                 [
                     '错误',
