@@ -12,6 +12,10 @@ Options:
   -h, --help       output usage information
 ```
 ## Version
+### 1.0.3
+-----
+- word -d 修改练习时的模式, 输出默写的5条
+
 ### 1.0.1
 ----
 - word -d 离开时打印用户行为
