@@ -1,5 +1,7 @@
 # word-learn
-单词练习: 随机给出一个单词, 抄一遍默写5遍
+> npm i -g word-learn
+
+    我最近做了一款 nodejs 的命令行工具，帮助开发者学习单词。
 
 ```
 Usage: index [options]
@@ -11,7 +13,41 @@ Options:
   -l, --words      打印单词列表
   -h, --help       output usage information
 ```
+
+### 功能如下: 
+
+- 从远程拉随机取5个单词
+- 随机给出一个单词， 抄一遍默写5遍
+
+### 效果图
+
+## word -r 获取随机单词
+![word -r](./public_static/word-r.png)
+
+## word -d 开始练习，抄一遍
+![word -d](./public_static/word-d01.png)
+
+## word -d 开始练习，默写5遍
+![word -d](./public_static/word-d02.png)
+
+## word -d 开始练习，默写错误
+![word -d](./public_static/word-d03.png)
+
+## word -d 练习结束
+![word -d](./public_static/word-d04.png)
+
+## word -l 打印单词列表
+![word -d](./public_static/word-l.png)
+
+
+
 ## Version
+### 1.0.4 （未来版本）
+-----
+- 实现登录功能，不论是在家还是在公司都能数据同步
+- 记录用户每场练习结果，能查询
+- word 后不跟任何命令时打印主页
+
 ### 1.0.3
 -----
 - word -d 修改练习时的模式, 输出默写的5条
